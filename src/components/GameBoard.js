@@ -2,16 +2,16 @@ import React from "react";
 import Snake from "./Snake";
 import Food from "./Food";
 
-const GameBoard = ({ snakeBody, food }) => {
-  const ROWS = 20;
-  const COLS = 20;
+const GameBoard = ({ snakeBody, food, height, width }) => {
+  const ROWS = height;
+  const COLS = width;
 
   // Ein 2D-Array erstellen
   const board = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-200">
-      <div className="grid grid-cols-20">
+      <div className="grid grid-cols-20 shadow-lg p-6 bg-black rounded">
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="flex">
             {row.map((_, cellIndex) => {
