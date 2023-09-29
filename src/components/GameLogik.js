@@ -3,6 +3,9 @@ import GameBoard from './GameBoard';
 
 const BOARD_HEIGHT = 20;
 const BOARD_WIDTH = 20;
+const INITIAL_SPEED = 200;
+const LEVEL_UP_SPEED_REDUCTION = 10;
+const LEVEL_UP_INTERVAL = 10;
 
 const initialSnakeBody = [
     { x: 10, y: 5 }, //Kopf
@@ -23,6 +26,14 @@ const GameLogik = () => {
     const [food, setFood] = useState(generateFood);
 
     const [direction, setDirection] = useState('DOWN');
+
+    const [score, setScore] = useState(0);
+
+    const [level, setLevel] = useState(0);
+
+    const [speed, setSpeed] = useState(INITIAL_SPEED);
+
+    const [lastCheckScore, setLastCheckScore] = useState(0);
 
     const moveSnake = (currentSnake, currentDirection) => {
         let newSnake = [...currentSnake];
@@ -53,12 +64,6 @@ const GameLogik = () => {
 
     };
 
-    const resetGame = useCallback(() => {
-        setSnake(initialSnakeBody);
-        setFood(generateFood());
-        setDirection('DOWN');
-    }, []);
-
     const isCollisionWithSelf = (head, snakeBody) => {
 
         for (let segment of snakeBody.slice(1)) {
@@ -78,6 +83,17 @@ const GameLogik = () => {
         return false;
     };
 
+    const resetGame = useCallback(() => {
+        setSnake(initialSnakeBody);
+        setFood(generateFood());
+        setDirection('DOWN');
+        setScore(0);
+        setLastCheckScore(0);
+        setLevel(0);
+        setSpeed(INITIAL_SPEED);
+    }, []);
+
+    // Bewegungslogik
     useEffect(() => {
 
         const move = () => {
@@ -88,6 +104,7 @@ const GameLogik = () => {
 
             if (head.x === food.x && head.y === food.y) {
                 schouldGrow = true;
+                setScore(score => score + 1);
                 setFood(generateFood());
             };
 
@@ -110,10 +127,19 @@ const GameLogik = () => {
 
         };
 
-        const gameInterval = setInterval(move, 100);
+        const gameInterval = setInterval(move, speed);
 
         return () => clearInterval(gameInterval);
-    }, [snake, direction, food.x, food.y, resetGame]);
+    }, [snake, direction, food, resetGame, speed]);
+
+    // Punktelogik
+    useEffect(() => {
+        if (score % LEVEL_UP_INTERVAL === 0 && score !== lastCheckScore) {
+            setLevel(level => level + 1);
+            setSpeed(prevSpeed => prevSpeed - LEVEL_UP_SPEED_REDUCTION);
+            setLastCheckScore(score);
+        };
+    }, [lastCheckScore, score]);
 
 
     const handleKeyDown = (e) => {
@@ -136,6 +162,7 @@ const GameLogik = () => {
         }
     };
 
+    // Eventlistener-Logik
     useEffect(() => {
 
         window.addEventListener('keydown', handleKeyDown);
@@ -149,6 +176,8 @@ const GameLogik = () => {
         food={food}
         height={BOARD_HEIGHT}
         width={BOARD_WIDTH}
+        score={score}
+        level={level}
     />
 };
 
