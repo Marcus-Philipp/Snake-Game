@@ -2,7 +2,12 @@
 module.exports = {
   content: ["./src/**/*.{html,js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'snack-pattern': "url('../Snake1.png')",
+        'apple-pattern': "url('../apfel.png')" 
+      }
+    },
   },
   plugins: [],
 }

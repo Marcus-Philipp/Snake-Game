@@ -4,7 +4,7 @@ const HighScore = ({ score }) => {
 
    return (
     <div>
-        <p>Highscore: {score}</p>
+        <p className="text-lg font-bold">Highscore: {score}</p>
     </div>
    );
 };

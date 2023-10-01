@@ -3,7 +3,7 @@ import React from "react";
 const Food = ({ position }) => {
     return (
         <div
-        className="bg-red-500 h-5 w-5"
+        className="h-5 w-5 bg-gray-900 bg-apple-pattern bg-no-repeat bg-cover"
         style={{
             gridColumnStart: position.x + 1,
             gridRowStart: position.y + 1

@@ -12,12 +12,12 @@ const GameBoard = ({ snakeBody, food, height, width, score, level }) => {
   const board = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-200">
+    <div className="flex flex-col justify-center items-center pb-36 min-h-screen bg-snack-pattern bg-no-repeat bg-contain bg-bottom bg-green-200">
       <div className="flex space-x-32">
       <Level level={level} />
       <HighScore score={score} />
       </div>
-      <div className="grid grid-cols-20 shadow-lg p-6 bg-black rounded">
+      <div className="grid grid-cols-20 shadow-lg p-6 bg-green-800 rounded">
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="flex">
             {row.map((_, cellIndex) => {
@@ -34,7 +34,7 @@ const GameBoard = ({ snakeBody, food, height, width, score, level }) => {
               }
 
               return (
-                <div key={cellIndex} className="bg-gray-400 h-5 w-5"></div>
+                <div key={cellIndex} className="bg-gray-900 h-5 w-5"></div>
               );
             })}
           </div>
