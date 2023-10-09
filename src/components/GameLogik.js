@@ -35,6 +35,8 @@ const GameLogik = () => {
 
     const [lastCheckScore, setLastCheckScore] = useState(0);
 
+    const [isPaused, setIsPaused] = useState(false);
+
     const moveSnake = (currentSnake, currentDirection) => {
         let newSnake = [...currentSnake];
 
@@ -98,6 +100,10 @@ const GameLogik = () => {
 
         const move = () => {
 
+            if (isPaused) {
+                return;
+            };
+
             let schouldGrow = false;
             let newSnake = moveSnake(snake, direction);
             const head = { ...newSnake[0] };
@@ -130,7 +136,7 @@ const GameLogik = () => {
         const gameInterval = setInterval(move, speed);
 
         return () => clearInterval(gameInterval);
-    }, [snake, direction, food, resetGame, speed]);
+    }, [snake, direction, food, resetGame, speed, isPaused]);
 
     // Punktelogik
     useEffect(() => {
@@ -157,6 +163,9 @@ const GameLogik = () => {
             case 'ArrowDown':
                 setDirection('DOWN');
                 break;
+            case ' ':
+                setIsPaused(prevIsPaused => !prevIsPaused);
+                break;
             default:
                 break;
         }
@@ -166,6 +175,7 @@ const GameLogik = () => {
     useEffect(() => {
 
         window.addEventListener('keydown', handleKeyDown);
+
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
