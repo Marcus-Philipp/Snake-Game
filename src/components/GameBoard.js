@@ -3,8 +3,9 @@ import Snake from "./Snake";
 import Food from "./Food";
 import HighScore from "./Score";
 import Level from "./Level";
+import Pause from "./Pause";
 
-const GameBoard = ({ snakeBody, food, height, width, score, level }) => {
+const GameBoard = ({ snakeBody, food, height, width, score, level, isPaused }) => {
   const ROWS = height;
   const COLS = width;
 
@@ -17,7 +18,7 @@ const GameBoard = ({ snakeBody, food, height, width, score, level }) => {
       <Level level={level} />
       <HighScore score={score} />
       </div>
-      <div className="grid grid-cols-20 shadow-lg p-6 bg-green-800 rounded">
+      <div className="relative grid grid-cols-20 shadow-lg p-6 bg-green-800 rounded">
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="flex">
             {row.map((_, cellIndex) => {
@@ -40,6 +41,7 @@ const GameBoard = ({ snakeBody, food, height, width, score, level }) => {
           </div>
         ))}
       </div>
+      <Pause isPaused={isPaused} />
     </div>
   );
 };

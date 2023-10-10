@@ -188,6 +188,7 @@ const GameLogik = () => {
         width={BOARD_WIDTH}
         score={score}
         level={level}
+        isPaused={isPaused}
     />
 };
 
