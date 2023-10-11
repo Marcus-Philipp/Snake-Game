@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import GameBoard from './GameBoard';
 
+//Breite des Spielfeldes
 const BOARD_WIDTH = 20;
+//Hoehe des Spielfeldes
 const BOARD_HEIGHT = 20;
+//Anfangsgeschwindigkeit der Schlange
 const INITIAL_SPEED = 200;
+//Wert zur Steigerung der Geschwindigkeit
 const LEVEL_UP_SPEED_REDUCTION = 10;
+//Faktor, ab wann, naechstes Level erreicht wird
 const LEVEL_UP_INTERVAL = 10;
 
+//Erstellen der Schlange
 const initialSnakeBody = [
     { x: 10, y: 5 }, //Kopf
     { x: 10, y: 4 }, //Koerper
@@ -15,31 +21,67 @@ const initialSnakeBody = [
 
 const GameLogik = () => {
 
+    //Zustand der Schlange
     const [snake, setSnake] = useState(initialSnakeBody);
-
-    const [direction, setDirection] = useState('DOWN');
-
+    //Zustand der Bewegungsrichtung
+    const [direction, setDirection] = useState(null);
+    //Zustand der Punktzahl
     const [score, setScore] = useState(0);
-
+    //Zustand des Levels
     const [level, setLevel] = useState(0);
-
+    //Zustand der Geschwindigkeit der Schlange
     const [speed, setSpeed] = useState(INITIAL_SPEED);
-
+    //Zustand der Pruefungszahl. Ist noetig fuer die Bedingung des Levelzustandes.
     const [lastCheckScore, setLastCheckScore] = useState(0);
-
+    //Zustand der Pausenfunktion
     const [isPaused, setIsPaused] = useState(false);
 
-    const generateFood = () => ({
+    //Generierung der zufaelligen Platzierung des Futters mit Beruecksichtigung der Schlange
+    const generateFood = useCallback(() => {
 
-        x: Math.floor(Math.random() * BOARD_WIDTH),
-        y: Math.floor(Math.random() * BOARD_HEIGHT)
-    });
+        const newFood = {
+            x: Math.floor(Math.random() * BOARD_WIDTH),
+            y: Math.floor(Math.random() * BOARD_HEIGHT)
+        };
 
+        if (snake.some(segment => segment.x === newFood.x && segment.y === newFood.y)) {
+            return generateFood();
+        }
+        return newFood;
+    }, [snake]);
+
+
+    //Zustand des Futters
     const [food, setFood] = useState(generateFood);
 
-    // Ein 2D-Array erstellen
+    //Ein 2D-Array erstellen
     const board = Array.from({ length: BOARD_WIDTH }, () => Array(BOARD_HEIGHT).fill(null));
 
+    //Funktion, zur implementierung, der gedrueckten Tasten
+    const handleKeyDown = (e) => {
+
+        switch (e.key) {
+            case 'ArrowRight':
+                setDirection('RIGHT');
+                break;
+            case 'ArrowLeft':
+                setDirection('LEFT');
+                break;
+            case 'ArrowUp':
+                setDirection('UP');
+                break;
+            case 'ArrowDown':
+                setDirection('DOWN');
+                break;
+            case ' ':
+                setIsPaused(prevIsPaused => !prevIsPaused);
+                break;
+            default:
+                break;
+        }
+    };
+
+    //Funktion, um die Schlange, zu steuern
     const moveSnake = (currentSnake, currentDirection) => {
         let newSnake = [...currentSnake];
 
@@ -69,6 +111,7 @@ const GameLogik = () => {
 
     };
 
+    //Ueberpruefung der Selbstkollision
     const isCollisionWithSelf = (head, snakeBody) => {
 
         for (let segment of snakeBody.slice(1)) {
@@ -80,6 +123,7 @@ const GameLogik = () => {
         return false;
     };
 
+    //Ueberpruefung der Wandkollision
     const isCollisionWithWall = (head) => {
         if (head.x < 0 || head.x >= BOARD_WIDTH || head.y < 0 || head.y >= BOARD_HEIGHT) {
             return true;
@@ -88,22 +132,23 @@ const GameLogik = () => {
         return false;
     };
 
+    //Zuruecksetzen des Spieles
     const resetGame = useCallback(() => {
         setSnake(initialSnakeBody);
         setFood(generateFood());
-        setDirection('DOWN');
+        setDirection(null);
         setScore(0);
         setLastCheckScore(0);
         setLevel(0);
         setSpeed(INITIAL_SPEED);
-    }, []);
+    }, [generateFood]);
 
     // Bewegungslogik
     useEffect(() => {
 
         const move = () => {
 
-            if (isPaused) {
+            if (isPaused || !direction) {
                 return;
             };
 
@@ -139,7 +184,7 @@ const GameLogik = () => {
         const gameInterval = setInterval(move, speed);
 
         return () => clearInterval(gameInterval);
-    }, [snake, direction, food, resetGame, speed, isPaused]);
+    }, [snake, direction, food, resetGame, speed, isPaused, generateFood]);
 
     // Punktelogik
     useEffect(() => {
@@ -149,30 +194,6 @@ const GameLogik = () => {
             setLastCheckScore(score);
         };
     }, [lastCheckScore, score]);
-
-
-    const handleKeyDown = (e) => {
-
-        switch (e.key) {
-            case 'ArrowRight':
-                setDirection('RIGHT');
-                break;
-            case 'ArrowLeft':
-                setDirection('LEFT');
-                break;
-            case 'ArrowUp':
-                setDirection('UP');
-                break;
-            case 'ArrowDown':
-                setDirection('DOWN');
-                break;
-            case ' ':
-                setIsPaused(prevIsPaused => !prevIsPaused);
-                break;
-            default:
-                break;
-        }
-    };
 
     // Eventlistener-Logik
     useEffect(() => {

@@ -16,7 +16,7 @@ const GameBoard = ({ snakeBody, food, board, score, level, isPaused }) => {
       </div>
       <div className="grid grid-cols-[1fr,auto,1fr] gap-x-36">
       <GameInstructions />
-        <div className="relative grid grid-cols-20 shadow-lg p-6 bg-green-800 rounded-lg">
+        <div className="relative grid grid-cols-20 bg-green-900 p-6 rounded-lg">
           {board.map((row, rowIndex) => (
             <div key={rowIndex} className="flex">
               {row.map((_, cellIndex) => {
