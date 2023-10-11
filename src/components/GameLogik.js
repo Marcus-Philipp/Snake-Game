@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import GameBoard from './GameBoard';
 
-const BOARD_HEIGHT = 20;
 const BOARD_WIDTH = 20;
+const BOARD_HEIGHT = 20;
 const INITIAL_SPEED = 200;
 const LEVEL_UP_SPEED_REDUCTION = 10;
 const LEVEL_UP_INTERVAL = 10;
@@ -15,15 +15,7 @@ const initialSnakeBody = [
 
 const GameLogik = () => {
 
-    const generateFood = () => ({
-
-        x: Math.floor(Math.random() * BOARD_WIDTH),
-        y: Math.floor(Math.random() * BOARD_HEIGHT)
-    });
-
     const [snake, setSnake] = useState(initialSnakeBody);
-
-    const [food, setFood] = useState(generateFood);
 
     const [direction, setDirection] = useState('DOWN');
 
@@ -36,6 +28,17 @@ const GameLogik = () => {
     const [lastCheckScore, setLastCheckScore] = useState(0);
 
     const [isPaused, setIsPaused] = useState(false);
+
+    const generateFood = () => ({
+
+        x: Math.floor(Math.random() * BOARD_WIDTH),
+        y: Math.floor(Math.random() * BOARD_HEIGHT)
+    });
+
+    const [food, setFood] = useState(generateFood);
+
+    // Ein 2D-Array erstellen
+    const board = Array.from({ length: BOARD_WIDTH }, () => Array(BOARD_HEIGHT).fill(null));
 
     const moveSnake = (currentSnake, currentDirection) => {
         let newSnake = [...currentSnake];
@@ -184,8 +187,7 @@ const GameLogik = () => {
     return <GameBoard
         snakeBody={snake}
         food={food}
-        height={BOARD_HEIGHT}
-        width={BOARD_WIDTH}
+        board={board}
         score={score}
         level={level}
         isPaused={isPaused}
