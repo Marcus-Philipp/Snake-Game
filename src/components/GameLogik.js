@@ -83,9 +83,9 @@ const GameLogik = () => {
 
     //Funktion, um die Schlange, zu steuern
     const moveSnake = (currentSnake, currentDirection) => {
-        let newSnake = [...currentSnake];
+        const newSnake = [...currentSnake];
 
-        let head = { ...newSnake[0] };
+        const head = { ...newSnake[0] };
 
         switch (currentDirection) {
             case 'RIGHT':
@@ -132,6 +132,12 @@ const GameLogik = () => {
         return false;
     };
 
+    //Wachstum der Schlange
+    const growSnake = useCallback((newSnake) => {
+        const tail = snake[snake.length - 1];
+        newSnake.push(tail);
+    }, [snake]);
+
     //Zuruecksetzen des Spieles
     const resetGame = useCallback(() => {
         setSnake(initialSnakeBody);
@@ -152,27 +158,16 @@ const GameLogik = () => {
                 return;
             };
 
-            let schouldGrow = false;
-            let newSnake = moveSnake(snake, direction);
+            const newSnake = moveSnake(snake, direction);
             const head = { ...newSnake[0] };
 
             if (head.x === food.x && head.y === food.y) {
-                schouldGrow = true;
+                growSnake(newSnake)
                 setScore(score => score + 1);
                 setFood(generateFood());
             };
 
-            if (schouldGrow) {
-                const tail = snake[snake.length - 1];
-                newSnake.push(tail);
-            }
-
-            if (isCollisionWithSelf(head, newSnake)) {
-                resetGame();
-                return;
-            };
-
-            if (isCollisionWithWall(head)) {
+            if (isCollisionWithSelf(head, newSnake) || isCollisionWithWall(head)) {
                 resetGame();
                 return;
             };
@@ -184,7 +179,7 @@ const GameLogik = () => {
         const gameInterval = setInterval(move, speed);
 
         return () => clearInterval(gameInterval);
-    }, [snake, direction, food, resetGame, speed, isPaused, generateFood]);
+    }, [snake, direction, food, resetGame, speed, isPaused, generateFood, growSnake]);
 
     // Punktelogik
     useEffect(() => {
