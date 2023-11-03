@@ -1,5 +1,6 @@
 import React from 'react';
 
+//Komponente zur Anzeige des Highscores
 const HighScore = ({ score }) => {
 
    return (

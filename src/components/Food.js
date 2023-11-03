@@ -1,5 +1,6 @@
 import React from "react";
 
+//Komponente zur Darstellung des Futters
 const Food = ({ position }) => {
     return (
         <div

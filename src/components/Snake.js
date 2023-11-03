@@ -1,5 +1,6 @@
 import React from "react";
 
+//Komponente zur Darstellung der Schlange
 const Snake = ({ body }) => {
 
   return (

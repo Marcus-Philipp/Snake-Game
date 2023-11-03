@@ -1,5 +1,6 @@
 import React from 'react';
 
+//Komponente, die waehrend einer Pause gerendert wird
 const Pause = ({ isPaused }) => {
 
     return isPaused && (

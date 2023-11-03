@@ -6,6 +6,7 @@ import Level from "./Level";
 import Pause from "./Pause";
 import GameInstructions from "./GameInstructions";
 
+//Komponente zur Darstellung des Spielfeldes
 const GameBoard = ({ snakeBody, food, board, score, level, isPaused }) => {
 
   return (

@@ -1,5 +1,6 @@
 import React from 'react';
 
+//Anleitung des Spieles
 const GameInstructions = () => {
 
     return (
