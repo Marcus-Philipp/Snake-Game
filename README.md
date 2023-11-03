@@ -1,5 +1,7 @@
 Snake Game 🐍
 
+https://snake-game-react-2023.netlify.app/
+
 Über das Projekt
 
 Dieses Projekt ist eine moderne Implementierung des klassischen Snake-Spiels, das in JavaScript und React erstellt wurde. Genießen Sie dieses nostalgische Spiel direkt in Ihrem Webbrowser!
