@@ -13,6 +13,7 @@ const MobileMoveButtons = ({ touchMove }) => {
           src={snakemoveup}
           alt="Nach Oben"
           onTouchStart={() => touchMove("UP")}
+          className="active:scale-90 transition duration-100 ease-in-out"
         />
       </div>
       <div className="flex gap-12">
@@ -21,6 +22,7 @@ const MobileMoveButtons = ({ touchMove }) => {
             src={snakemoveleft}
             alt="Nach Links"
             onTouchStart={() => touchMove("LEFT")}
+            className="active:scale-90 transition duration-100 ease-in-out"
           />
         </div>
         <div className="h-16 w-16">
@@ -28,6 +30,7 @@ const MobileMoveButtons = ({ touchMove }) => {
             src={snakemoveright}
             alt="Nach Rechts"
             onTouchStart={() => touchMove("RIGHT")}
+            className="active:scale-90 transition duration-100 ease-in-out"
           />
         </div>
       </div>
@@ -36,6 +39,7 @@ const MobileMoveButtons = ({ touchMove }) => {
           src={snakemovedown}
           alt="Nach Unten"
           onTouchStart={() => touchMove("DOWN")}
+          className="active:scale-90 transition duration-100 ease-in-out"
         />
       </div>
     </div>

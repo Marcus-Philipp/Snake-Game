@@ -5,7 +5,11 @@ import pausebutton from "../pause-button.png";
 const MobilPauseButton = ({ touchIsPause }) => {
   return (
     <div className="w-16 h-16">
-      <img src={pausebutton} alt="Pause Taste" onTouchStart={() => touchIsPause()} />
+      <img
+        src={pausebutton}
+        alt="Pause Taste"
+        onTouchStart={() => touchIsPause()}
+      />
     </div>
   );
 };
