@@ -15,7 +15,7 @@ const GameBoard = ({ snakeBody, food, board, score, level, isPaused, touchMove ,
   const isDesktop = useMediaQuery({ query: "(min-width: 900px)" });
 
   return (
-    <div className="flex flex-col bg-green-300 items-center lg:justify-center lg:pb-36 min-h-screen lg:bg-snack-pattern lg:bg-no-repeat lg:bg-contain lg:bg-bottom">
+    <div className="flex flex-col bg-green-50 items-center lg:justify-center lg:pb-36 min-h-screen lg:bg-snack-pattern lg:bg-no-repeat lg:bg-contain lg:bg-bottom">
       <div className="lg:grid lg:grid-cols-[1fr,auto,1fr] lg:gap-x-10 lg:ml-8 xl:gap-x-36 xl:ml-0">
         {isDesktop && <GameInstructions />}
         <div className="flex flex-col bg-green-900 px-4 pb-4 md:px-6 md:pb-6 rounded-lg items-center">
