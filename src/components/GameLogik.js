@@ -57,7 +57,7 @@ const GameLogik = () => {
     //Ein 2D-Array erstellen
     const board = Array.from({ length: BOARD_WIDTH }, () => Array(BOARD_HEIGHT).fill(null));
 
-    //Funktion, zur implementierung, der gedrueckten Tasten
+    //Funktion, zur Implementierung, der gedrueckten Tasten
     const handleKeyDown = (e) => {
 
         switch (e.key) {
@@ -79,6 +79,21 @@ const GameLogik = () => {
             default:
                 break;
         }
+    };
+
+    //Funktion, zur Implementierung, der gedrueckten Buttons in mobiler Version
+    const touchMove = (touchDirection) => {
+        setDirection(touchDirection);
+    };
+
+    //Funktion, zur Implementierung, des Pause Buttons in mobiler Version
+    const touchIsPause = () => {
+        setIsPaused(prevIsPaused => !prevIsPaused);
+    };
+
+    //Funktion, zur Aufhebung der Pause, bei Overlay
+    const onOverlay = () => {
+        setIsPaused(false);
     };
 
     //Funktion, um die Schlange, zu steuern
@@ -207,6 +222,9 @@ const GameLogik = () => {
         score={score}
         level={level}
         isPaused={isPaused}
+        onOverlay={onOverlay}
+        touchMove={touchMove}
+        touchIsPause={touchIsPause}
     />
 };
 

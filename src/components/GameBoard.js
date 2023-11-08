@@ -10,7 +10,7 @@ import MobileMoveButtons from "./MobileMoveButtons";
 import MobilePauseButton from "./MobilePauseButton";
 
 //Komponente zur Darstellung des Spielfeldes
-const GameBoard = ({ snakeBody, food, board, score, level, isPaused }) => {
+const GameBoard = ({ snakeBody, food, board, score, level, isPaused, touchMove , touchIsPause, onOverlay }) => {
   //React Responsive MediaQuery deklariert
   const isDesktop = useMediaQuery({ query: "(min-width: 900px)" });
 
@@ -55,11 +55,11 @@ const GameBoard = ({ snakeBody, food, board, score, level, isPaused }) => {
         </div>
         <div></div>
         <div className="flex justify-center ml-16">
-          {!isDesktop && <MobileMoveButtons />}
-          {!isDesktop && <MobilePauseButton />}
+          {!isDesktop && <MobileMoveButtons touchMove={touchMove} />}
+          {!isDesktop && <MobilePauseButton touchIsPause={touchIsPause} />}
         </div>
       </div>
-      <Pause isPaused={isPaused} />
+      <Pause isPaused={isPaused} onOverlay={onOverlay} />
     </div>
   );
 };
